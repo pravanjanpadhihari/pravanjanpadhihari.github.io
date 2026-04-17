@@ -3,530 +3,941 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Pravanjan Padhihari — Management Consultant at Accenture Strategy. Engineer, MBA, builder."/>
+<meta name="description" content="Pravanjan Padhihari — Management Consultant, Aerospace & Defense Engineer, Builder. Accenture Strategy · IIM Calcutta · IIT Delhi · Boeing India."/>
 <title>Pravanjan Padhihari</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
 :root{
-  --ink:#0c0b09;
-  --ink2:#3d3b36;
-  --ink3:#8a8780;
-  --paper:#f8f5f0;
-  --paper2:#eeebe4;
-  --accent:#1a3a2a;
-  --accent-light:#e8f0eb;
-  --rule:rgba(0,0,0,0.1);
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'DM Sans',sans-serif;
+  --bg:#0a0c0f;
+  --bg2:#0f1217;
+  --bg3:#151a22;
+  --surface:#1a2030;
+  --border:rgba(255,255,255,0.07);
+  --border-bright:rgba(255,255,255,0.15);
+  --ink:#f0ede8;
+  --ink2:#a8a49e;
+  --ink3:#5a5650;
+  --accent:#4a9eff;
+  --accent2:#00d4aa;
+  --accent3:#ff6b35;
+  --gold:#c9a84c;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'Syne',sans-serif;
+  --mono:'JetBrains Mono',monospace;
 }
-
 html{scroll-behavior:smooth;}
-
 body{
   font-family:var(--sans);
-  background:var(--paper);
+  background:var(--bg);
   color:var(--ink);
-  font-size:16px;
-  line-height:1.6;
   overflow-x:hidden;
+  cursor:none;
 }
+
+/* ── CUSTOM CURSOR ── */
+.cursor{
+  width:8px;height:8px;background:var(--accent);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);transition:transform 0.1s;
+}
+.cursor-ring{
+  width:32px;height:32px;border:1px solid rgba(74,158,255,0.4);border-radius:50%;
+  position:fixed;top:0;left:0;pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);transition:transform 0.15s,width 0.2s,height 0.2s,border-color 0.2s;
+}
+body:hover .cursor-ring{border-color:rgba(74,158,255,0.4);}
+a:hover ~ .cursor-ring, button:hover ~ .cursor-ring{width:48px;height:48px;}
 
 /* ── NAV ── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;justify-content:space-between;
   padding:1.25rem 3rem;
-  background:rgba(248,245,240,0.92);
-  backdrop-filter:blur(12px);
-  border-bottom:0.5px solid var(--rule);
+  border-bottom:0.5px solid var(--border);
+  background:rgba(10,12,15,0.85);
+  backdrop-filter:blur(20px);
 }
-.nav-name{
-  font-family:var(--serif);
-  font-size:18px;
-  font-weight:400;
-  letter-spacing:0.02em;
-  color:var(--ink);
-  text-decoration:none;
+.nav-logo{
+  font-family:var(--mono);font-size:13px;font-weight:400;
+  color:var(--ink2);text-decoration:none;letter-spacing:0.05em;
 }
-.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
 .nav-links a{
-  font-size:13px;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;font-weight:400;
+  letter-spacing:0.12em;text-transform:uppercase;
   color:var(--ink3);text-decoration:none;transition:color 0.2s;
 }
 .nav-links a:hover{color:var(--ink);}
+.nav-status{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11px;color:var(--accent2);
+}
+.nav-status::before{
+  content:'';width:6px;height:6px;background:var(--accent2);
+  border-radius:50%;animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
 
 /* ── HERO ── */
 .hero{
   min-height:100vh;
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr auto;
+  padding:0 3rem;
   padding-top:80px;
+  position:relative;
+  overflow:hidden;
 }
-.hero-left{
-  padding:6rem 3rem 6rem 3rem;
-  display:flex;flex-direction:column;justify-content:center;
-  border-right:0.5px solid var(--rule);
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 600px 400px at 70% 30%, rgba(74,158,255,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 20% 80%, rgba(0,212,170,0.03) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size:60px 60px;
+  pointer-events:none;
+}
+.hero-content{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  padding:4rem 0;
 }
 .hero-eyebrow{
-  font-size:11px;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--accent);font-weight:500;margin-bottom:2rem;
-  display:flex;align-items:center;gap:10px;
-}
-.hero-eyebrow::before{content:'';width:32px;height:1px;background:var(--accent);}
-h1{
-  font-family:var(--serif);
-  font-size:clamp(52px,6vw,80px);
-  font-weight:300;
-  line-height:1.05;
-  letter-spacing:-0.01em;
-  color:var(--ink);
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--accent);
   margin-bottom:2rem;
 }
-h1 em{font-style:italic;color:var(--accent);}
-.hero-desc{
-  font-size:16px;font-weight:300;color:var(--ink2);
-  line-height:1.8;max-width:440px;margin-bottom:3rem;
-}
-.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 28px;
-  background:var(--accent);color:#fff;
-  font-family:var(--sans);font-size:13px;font-weight:500;
-  letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;
-  border:none;cursor:pointer;transition:opacity 0.2s;
-}
-.btn-primary:hover{opacity:0.85;}
-.btn-outline{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 28px;
-  background:transparent;color:var(--ink);
-  font-family:var(--sans);font-size:13px;font-weight:500;
-  letter-spacing:0.06em;text-transform:uppercase;text-decoration:none;
-  border:0.5px solid var(--ink2);transition:all 0.2s;
-}
-.btn-outline:hover{background:var(--ink);color:var(--paper);}
-
-.hero-right{
-  padding:6rem 3rem;
-  display:flex;flex-direction:column;justify-content:center;
-  gap:0;
-}
-.stat-row{
-  padding:2rem 0;
-  border-bottom:0.5px solid var(--rule);
-  display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;align-items:start;
-}
-.stat-row:first-child{border-top:0.5px solid var(--rule);}
-.stat-num{
-  font-family:var(--serif);font-size:48px;font-weight:300;
-  line-height:1;color:var(--accent);
-}
-.stat-label{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:4px;}
-.stat-desc{font-size:13px;font-weight:300;color:var(--ink3);line-height:1.5;}
-
-/* ── SECTION BASE ── */
-section{padding:6rem 3rem;}
-.section-rule{
-  display:flex;align-items:center;gap:16px;
-  margin-bottom:3rem;
-}
-.section-label{
-  font-size:10px;letter-spacing:0.2em;text-transform:uppercase;
-  color:var(--ink3);font-weight:500;white-space:nowrap;
-}
-.section-rule::after{content:'';flex:1;height:0.5px;background:var(--rule);}
-h2{
-  font-family:var(--serif);font-size:clamp(36px,4vw,52px);
-  font-weight:300;line-height:1.1;color:var(--ink);
+.hero-eyebrow::before{content:'//';color:var(--ink3);}
+h1{
+  font-family:var(--serif);
+  font-size:clamp(52px,5.5vw,76px);
+  font-weight:400;
+  line-height:1.05;
+  color:var(--ink);
   margin-bottom:1.5rem;
 }
-h2 em{font-style:italic;}
+h1 em{font-style:italic;color:var(--accent);}
+h1 .dim{color:var(--ink3);}
+.hero-desc{
+  font-family:var(--sans);font-size:15px;font-weight:400;
+  color:var(--ink2);line-height:1.85;max-width:480px;
+  margin-bottom:2.5rem;
+}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;font-weight:400;
+  letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;
+  padding:12px 24px;cursor:pointer;border:none;transition:all 0.2s;
+}
+.btn-primary{
+  background:var(--accent);color:#fff;
+}
+.btn-primary:hover{background:#6ab3ff;transform:translateY(-1px);}
+.btn-ghost{
+  background:transparent;color:var(--ink2);
+  border:0.5px solid var(--border-bright);
+}
+.btn-ghost:hover{color:var(--ink);border-color:var(--ink2);}
 
-/* ── ABOUT ── */
-.about-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;
+.hero-right{display:flex;flex-direction:column;gap:0;}
+.metric-card{
+  padding:1.5rem;
+  border:0.5px solid var(--border);
+  border-bottom:none;
+  display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;
+  transition:border-color 0.2s,background 0.2s;
 }
-.about-text{font-size:17px;font-weight:300;color:var(--ink2);line-height:1.9;}
-.about-text p+p{margin-top:1.25rem;}
-.about-text strong{font-weight:500;color:var(--ink);}
-.timeline{display:flex;flex-direction:column;gap:0;}
-.tl-item{
-  display:grid;grid-template-columns:80px 1fr;gap:1.5rem;
-  padding:1.5rem 0;border-bottom:0.5px solid var(--rule);
+.metric-card:last-child{border-bottom:0.5px solid var(--border);}
+.metric-card:hover{border-color:var(--border-bright);background:rgba(255,255,255,0.02);}
+.metric-num{
+  font-family:var(--serif);font-size:42px;font-style:italic;
+  color:var(--accent);line-height:1;min-width:70px;
 }
-.tl-item:first-child{padding-top:0;}
-.tl-year{font-family:var(--serif);font-size:14px;color:var(--ink3);padding-top:3px;}
-.tl-org{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:2px;}
-.tl-role{font-size:13px;font-weight:300;color:var(--ink3);}
+.metric-label{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.metric-desc{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.6;}
 
-/* ── EXPERTISE ── */
-.expertise-section{background:var(--accent);padding:6rem 3rem;}
-.expertise-section .section-label{color:rgba(255,255,255,0.4);}
-.expertise-section h2{color:#fff;}
-.expertise-section h2 em{color:rgba(255,255,255,0.6);}
-.expertise-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:0;
-  border-top:0.5px solid rgba(255,255,255,0.15);
-  margin-top:3rem;
+.hero-bottom{
+  border-top:0.5px solid var(--border);
+  padding:1.5rem 0;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
 }
-.expertise-card{
-  padding:2.5rem 2.5rem 2.5rem 0;
-  border-right:0.5px solid rgba(255,255,255,0.15);
-  border-bottom:0.5px solid rgba(255,255,255,0.15);
+.domain-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 10px;border:0.5px solid var(--border);color:var(--ink3);
 }
-.expertise-card:nth-child(3n){border-right:none;padding-right:0;}
-.expertise-card:nth-child(n+4){border-bottom:none;}
-.exp-icon{
-  width:36px;height:36px;
-  border:0.5px solid rgba(255,255,255,0.3);
+.tag.active{border-color:var(--accent);color:var(--accent);}
+
+/* ── SECTIONS ── */
+section{padding:6rem 3rem;}
+.section-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:4rem;
+}
+.section-num{
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+  letter-spacing:0.1em;
+}
+.section-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.15em;
+  text-transform:uppercase;color:var(--ink3);
+}
+.section-header::after{content:'';flex:1;height:0.5px;background:var(--border);}
+h2{
+  font-family:var(--serif);font-size:clamp(36px,3.5vw,52px);
+  font-weight:400;line-height:1.1;color:var(--ink);
+  margin-bottom:1rem;
+}
+h2 em{font-style:italic;color:var(--accent2);}
+
+/* ── ABOUT / DOMAINS ── */
+.about-grid{display:grid;grid-template-columns:5fr 4fr;gap:6rem;align-items:start;}
+.about-body{font-size:16px;font-weight:400;color:var(--ink2);line-height:1.9;}
+.about-body p+p{margin-top:1.25rem;}
+.about-body strong{color:var(--ink);font-weight:600;}
+.about-body a{color:var(--accent);text-decoration:none;}
+
+.domain-grid{display:flex;flex-direction:column;gap:0;}
+.domain-item{
+  padding:1rem 0;
+  border-bottom:0.5px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
+  cursor:default;
+  transition:padding-left 0.2s;
+}
+.domain-item:first-child{border-top:0.5px solid var(--border);}
+.domain-item:hover{padding-left:8px;}
+.domain-name{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink);}
+.domain-years{font-family:var(--mono);font-size:11px;color:var(--ink3);}
+.domain-bar{
+  width:60px;height:2px;background:var(--border);
+  position:relative;overflow:hidden;
+}
+.domain-bar-fill{
+  height:100%;background:var(--accent);
+  transition:width 1s ease;
+}
+
+/* ── IMPACT ── */
+.impact-section{background:var(--bg2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);}
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-left:0.5px solid var(--border);}
+.impact-card{
+  padding:2.5rem 2rem;
+  border-right:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  position:relative;overflow:hidden;
+  transition:background 0.2s;
+}
+.impact-card:hover{background:rgba(255,255,255,0.02);}
+.impact-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--accent),transparent);
+  opacity:0;transition:opacity 0.2s;
+}
+.impact-card:hover::before{opacity:1;}
+.impact-num{
+  font-family:var(--serif);font-size:48px;font-style:italic;
+  color:var(--accent);line-height:1;margin-bottom:0.5rem;
+}
+.impact-num.green{color:var(--accent2);}
+.impact-num.orange{color:var(--accent3);}
+.impact-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:0.4rem;}
+.impact-desc{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.7;}
+.impact-program{
+  margin-top:1rem;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.08em;
+  text-transform:uppercase;color:var(--border-bright);
+  padding:3px 6px;border:0.5px solid var(--border);
+  display:inline-block;
+}
+
+/* ── EXPERIENCE ── */
+.exp-grid{display:flex;flex-direction:column;gap:0;}
+.exp-item{
+  display:grid;grid-template-columns:200px 1fr;gap:3rem;
+  padding:2.5rem 0;border-bottom:0.5px solid var(--border);
+}
+.exp-item:first-child{border-top:0.5px solid var(--border);}
+.exp-meta{}
+.exp-period{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:6px;}
+.exp-org{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.exp-location{font-family:var(--mono);font-size:11px;color:var(--ink3);}
+.exp-body{}
+.exp-role{font-family:var(--serif);font-size:20px;font-style:italic;color:var(--ink);margin-bottom:0.75rem;}
+.exp-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+.exp-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.08em;text-transform:uppercase;
+  padding:3px 8px;border:0.5px solid var(--border);color:var(--ink3);
+}
+.exp-highlights{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.exp-highlights li{
+  font-size:13px;color:var(--ink2);line-height:1.7;
+  padding-left:16px;position:relative;
+}
+.exp-highlights li::before{
+  content:'→';position:absolute;left:0;
+  font-family:var(--mono);font-size:11px;color:var(--accent);
+}
+
+/* ── VISION / STARTUP ── */
+.vision-section{
+  background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+}
+.vision-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.vision-text{}
+.vision-body{font-size:16px;color:var(--ink2);line-height:1.9;margin-bottom:2rem;}
+.vision-body strong{color:var(--ink);}
+.vision-pillars{display:flex;flex-direction:column;gap:0;}
+.pillar{
+  padding:1.25rem 0;border-bottom:0.5px solid var(--border);
+  display:grid;grid-template-columns:32px 1fr;gap:1rem;align-items:start;
+}
+.pillar:first-child{border-top:0.5px solid var(--border);}
+.pillar-num{font-family:var(--mono);font-size:11px;color:var(--accent);}
+.pillar-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:3px;}
+.pillar-desc{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.6;}
+.vision-right{}
+.interest-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.interest-card{
+  background:var(--bg2);
+  padding:1.5rem;
+  transition:background 0.2s;
+}
+.interest-card:hover{background:var(--surface);}
+.interest-icon{
+  width:32px;height:32px;margin-bottom:0.75rem;
+  border:0.5px solid var(--border);
   display:flex;align-items:center;justify-content:center;
-  margin-bottom:1.25rem;
-  font-size:14px;color:rgba(255,255,255,0.7);
+  font-family:var(--mono);font-size:11px;color:var(--accent2);
 }
-.exp-title{font-size:14px;font-weight:500;color:#fff;margin-bottom:0.5rem;}
-.exp-desc{font-size:13px;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;}
+.interest-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.interest-desc{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.6;}
 
-/* ── TOOLS / APPS ── */
-.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:var(--rule);border:0.5px solid var(--rule);}
+/* ── TOOLS ── */
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
 .tool-card{
-  background:var(--paper);
+  background:var(--bg);
   padding:2.5rem;
-  text-decoration:none;
-  display:block;
+  text-decoration:none;display:block;
   transition:background 0.2s;
   position:relative;overflow:hidden;
 }
-.tool-card:hover{background:var(--accent-light);}
-.tool-tag{
-  font-size:10px;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--accent);font-weight:500;margin-bottom:1rem;
+.tool-card:hover{background:var(--bg2);}
+.tool-card::after{
+  content:'↗';position:absolute;top:2rem;right:2rem;
+  font-family:var(--mono);font-size:16px;color:var(--border-bright);
+  transition:color 0.2s,transform 0.2s;
 }
-.tool-title{
-  font-family:var(--serif);font-size:28px;font-weight:300;
-  color:var(--ink);margin-bottom:0.75rem;line-height:1.2;
-}
-.tool-desc{font-size:13px;font-weight:300;color:var(--ink3);line-height:1.7;margin-bottom:1.5rem;}
-.tool-link{
-  font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
-  color:var(--accent);display:flex;align-items:center;gap:6px;
-}
-.tool-link::after{content:'→';transition:transform 0.2s;}
-.tool-card:hover .tool-link::after{transform:translateX(4px);}
-.tool-wip{
-  background:var(--paper2);cursor:default;
-}
-.tool-wip:hover{background:var(--paper2);}
-.wip-badge{
-  position:absolute;top:1.5rem;right:1.5rem;
-  font-size:10px;letter-spacing:0.1em;text-transform:uppercase;
-  background:var(--paper3,#ddd);color:var(--ink3);
-  padding:3px 8px;
-}
+.tool-card:hover::after{color:var(--accent);transform:translate(2px,-2px);}
+.tool-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:0.75rem;}
+.tool-title{font-family:var(--serif);font-size:26px;font-style:italic;color:var(--ink);margin-bottom:0.5rem;}
+.tool-desc{font-size:13px;color:var(--ink3);line-height:1.7;}
+.tool-wip{cursor:default;opacity:0.5;}
+.tool-wip:hover{background:var(--bg);}
+.tool-wip::after{content:'// soon';font-size:11px;color:var(--ink3);}
 
 /* ── EDUCATION ── */
-.edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:1rem;}
+.edu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
 .edu-card{
-  padding:2rem;
-  border:0.5px solid var(--rule);
-  background:var(--paper);
+  background:var(--bg);padding:2rem;
+  border-bottom:2px solid transparent;
+  transition:border-color 0.2s,background 0.2s;
 }
-.edu-degree{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--ink);margin-bottom:0.25rem;}
-.edu-inst{font-size:13px;font-weight:500;color:var(--accent);margin-bottom:0.25rem;}
-.edu-year{font-size:12px;color:var(--ink3);}
+.edu-card:hover{border-color:var(--accent);background:var(--bg2);}
+.edu-year{font-family:var(--mono);font-size:11px;color:var(--accent);margin-bottom:8px;}
+.edu-degree{font-family:var(--serif);font-size:18px;font-style:italic;color:var(--ink);margin-bottom:4px;}
+.edu-field{font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:4px;}
+.edu-inst{font-family:var(--mono);font-size:11px;color:var(--ink3);}
 
 /* ── CONTACT ── */
 .contact-section{
-  background:var(--ink);padding:6rem 3rem;
-  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;
+  background:var(--bg2);
+  border-top:0.5px solid var(--border);
 }
-.contact-section h2{color:#fff;margin-bottom:0.75rem;}
-.contact-section h2 em{color:rgba(255,255,255,0.4);}
-.contact-desc{font-size:16px;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.8;}
-.contact-links{display:flex;flex-direction:column;gap:1rem;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.contact-intro{font-size:16px;color:var(--ink2);line-height:1.85;margin-bottom:2rem;}
+.contact-links{display:flex;flex-direction:column;gap:0;}
 .contact-link{
   display:flex;align-items:center;justify-content:space-between;
-  padding:1.25rem 1.5rem;
-  border:0.5px solid rgba(255,255,255,0.15);
-  text-decoration:none;
-  color:#fff;
-  transition:border-color 0.2s,background 0.2s;
-  font-size:14px;
+  padding:1.25rem 0;border-bottom:0.5px solid var(--border);
+  text-decoration:none;transition:padding-left 0.2s;
+  group:true;
 }
-.contact-link:hover{border-color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.05);}
-.contact-link-label{font-weight:300;color:rgba(255,255,255,0.5);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;}
+.contact-link:first-child{border-top:0.5px solid var(--border);}
+.contact-link:hover{padding-left:8px;}
+.contact-link-left{display:flex;flex-direction:column;gap:3px;}
+.contact-link-platform{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink3);}
+.contact-link-value{font-size:14px;font-weight:500;color:var(--ink);}
+.contact-link-arrow{font-family:var(--mono);color:var(--accent);font-size:16px;transition:transform 0.2s;}
+.contact-link:hover .contact-link-arrow{transform:translate(4px,-4px);}
+.contact-avail{
+  margin-top:2rem;padding:1.5rem;
+  border:0.5px solid var(--border);
+}
+.avail-label{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.avail-label::before{content:'';width:6px;height:6px;background:var(--accent2);border-radius:50%;animation:pulse 2s infinite;}
+.avail-text{font-size:13px;color:var(--ink2);line-height:1.6;}
 
 /* ── FOOTER ── */
 footer{
-  padding:2rem 3rem;
-  border-top:0.5px solid var(--rule);
+  padding:1.5rem 3rem;
+  border-top:0.5px solid var(--border);
   display:flex;justify-content:space-between;align-items:center;
-  font-size:12px;color:var(--ink3);
+  flex-wrap:wrap;gap:1rem;
 }
+.footer-left{font-family:var(--mono);font-size:11px;color:var(--ink3);}
+.footer-right{font-family:var(--mono);font-size:11px;color:var(--ink3);}
 
 /* ── ANIMATIONS ── */
-.fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
-.fade-up.visible{opacity:1;transform:translateY(0);}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
 
 /* ── RESPONSIVE ── */
-@media(max-width:900px){
+@media(max-width:1024px){
   nav{padding:1rem 1.5rem;}
-  .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-left{padding:5rem 1.5rem 3rem;border-right:none;border-bottom:0.5px solid var(--rule);}
-  .hero-right{padding:3rem 1.5rem;}
+  .hero,.about-grid,.vision-grid,.contact-grid{padding-left:1.5rem;padding-right:1.5rem;}
   section{padding:4rem 1.5rem;}
-  .about-grid{grid-template-columns:1fr;gap:3rem;}
-  .expertise-grid{grid-template-columns:1fr 1fr;}
-  .expertise-card:nth-child(3n){border-right:0.5px solid rgba(255,255,255,0.15);padding-right:2.5rem;}
-  .expertise-card:nth-child(2n){border-right:none;padding-right:0;}
-  .tools-grid{grid-template-columns:1fr;}
-  .edu-grid{grid-template-columns:1fr;}
-  .contact-section{grid-template-columns:1fr;gap:3rem;}
-  footer{flex-direction:column;gap:0.5rem;text-align:center;}
-  .expertise-section{padding:4rem 1.5rem;}
+  .hero-content{grid-template-columns:1fr;gap:3rem;}
+  .about-grid,.vision-grid,.contact-grid{grid-template-columns:1fr;gap:3rem;}
+  .impact-grid{grid-template-columns:1fr 1fr;}
+  .exp-item{grid-template-columns:1fr;gap:1rem;}
+  .edu-grid,.tools-grid,.interest-grid{grid-template-columns:1fr;}
+  footer{padding:1.5rem;flex-direction:column;text-align:center;}
+  .nav-links{gap:1.5rem;}
+  .nav-status{display:none;}
+}
+@media(max-width:600px){
+  .impact-grid{grid-template-columns:1fr;}
+  .hero-cta{flex-direction:column;}
+  h1{font-size:42px;}
 }
 </style>
 </head>
 <body>
 
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
 <nav>
-  <a href="#" class="nav-name">Pravanjan Padhihari</a>
+  <a href="#" class="nav-logo"><span>//</span> pravanjan.padhihari</a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#vision">Vision</a></li>
     <li><a href="#tools">Tools</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <div class="nav-status">Available · May 2026</div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">Management Consultant · Builder</p>
-    <h1>Strategy.<br><em>Engineering.</em><br>Execution.</h1>
-    <p class="hero-desc">
-      Accenture Strategy consultant with an engineering foundation across aerospace, defense, and digital transformation. IIT Delhi · IIM Calcutta · Boeing India.
-    </p>
-    <div class="hero-cta">
-      <a href="#tools" class="btn-primary">View my tools</a>
-      <a href="#contact" class="btn-outline">Get in touch</a>
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Management Consultant · Engineer · Builder</div>
+      <h1>
+        Aerospace<br>
+        <em>precision.</em><br>
+        <span class="dim">Strategy</span> scale.
+      </h1>
+      <p class="hero-desc">
+        Six years engineering compliance systems for F-15, F/A-18 and satellite programs at Boeing. Now bringing that systems-thinking rigour into management consulting at Accenture Strategy — and building toward the intersection of aerospace, technology, and entrepreneurship.
+      </p>
+      <div class="hero-cta">
+        <a href="#vision" class="btn btn-primary">My long-term vision</a>
+        <a href="#contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="metric-card">
+        <div class="metric-num">6+</div>
+        <div>
+          <div class="metric-label">Years at Boeing India</div>
+          <div class="metric-desc">F-15 · F/A-18 · Satellite Programs · Siemens Capital PLM · Supply Chain & Compliance Systems</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">$200K+</div>
+        <div>
+          <div class="metric-label">Cost savings per program</div>
+          <div class="metric-desc">Satellite migration: 2,200+ hrs saved · Defense compliance: 200+ hrs/aircraft · Top 50 BTEC 2024</div>
+        </div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-num">3</div>
+        <div>
+          <div class="metric-label">Postgraduate institutions</div>
+          <div class="metric-desc">IIT Delhi M.Tech · IIM Calcutta MBAEx · CET Bhubaneswar B.Tech — Engineering to Strategy pipeline</div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="hero-right">
-    <div class="stat-row">
-      <div class="stat-num">6+</div>
-      <div>
-        <div class="stat-label">Years at Boeing India</div>
-        <div class="stat-desc">Defense programs — F-15, F/A-18 · PLM · Digital transformation · Satellite systems</div>
-      </div>
+  <div class="hero-bottom">
+    <div class="domain-tags">
+      <span class="tag active">Aviation & Aerospace</span>
+      <span class="tag active">Defense Systems</span>
+      <span class="tag active">PLM · Siemens Capital</span>
+      <span class="tag">Digital Transformation</span>
+      <span class="tag">Strategy & Consulting</span>
+      <span class="tag">AIML</span>
+      <span class="tag">Space Tech</span>
     </div>
-    <div class="stat-row">
-      <div class="stat-num">3</div>
-      <div>
-        <div class="stat-label">Postgraduate degrees</div>
-        <div class="stat-desc">B.Tech Mechanical · M.Tech Thermal Engineering (IIT Delhi) · MBAEx General Management (IIM Calcutta)</div>
-      </div>
-    </div>
-    <div class="stat-row">
-      <div class="stat-num">37</div>
-      <div>
-        <div class="stat-label">LPA · Accenture Strategy</div>
-        <div class="stat-desc">Joining May 2026, Bangalore · Strategy & Consulting practice</div>
-      </div>
-    </div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--ink3);">Bangalore, India</div>
   </div>
 </div>
 
 <!-- ABOUT -->
 <section id="about">
-  <div class="section-rule">
+  <div class="section-header">
+    <span class="section-num">01</span>
     <span class="section-label">About</span>
   </div>
   <div class="about-grid">
-    <div>
-      <h2>Engineer turned <em>strategist.</em></h2>
-      <div class="about-text">
-        <p>I spent six years at <strong>Boeing India</strong> building software for some of the world's most complex defense programs — F-15, F/A-18, satellite systems — before making a deliberate pivot into management consulting.</p>
-        <p>My <strong>MBAEx from IIM Calcutta</strong> sharpened my ability to translate technical complexity into business strategy. Now at <strong>Accenture Strategy</strong>, I bring both lenses to every engagement.</p>
-        <p>Outside work, I build personal tools — finance apps, decision frameworks — that scratch real itches. This site is where those live.</p>
+    <div class="reveal">
+      <h2>From aircraft wiring<br>to <em>business strategy.</em></h2>
+      <div class="about-body" style="margin-top:2rem;">
+        <p>I spent six years at <strong>Boeing India</strong> solving some of the hardest engineering software problems in defense and aerospace — building compliance platforms for F-15 and F/A-18 aircraft, migrating satellite reporting systems, and architecting cross-domain PLM integrations in <strong>Siemens Capital</strong>. Every engagement was high-stakes, multi-stakeholder, and delivered with a US defense-program clock ticking.</p>
+        <p>The <strong>MBAEx at IIM Calcutta</strong> was a deliberate move — not away from technology, but toward the level where technology decisions are made. I wanted to understand the business models, the capital structures, and the strategic trade-offs that determine whether a technically excellent idea actually gets built at scale.</p>
+        <p>At <strong>Accenture Strategy</strong>, I bring both lenses. I'm the person who can walk into an aerospace or defense organisation, understand the engineering reality at depth, and translate it into strategic options for the boardroom. Long-term, I'm building toward something at the intersection of <strong>space technology, advanced manufacturing, and entrepreneurship</strong>.</p>
       </div>
     </div>
-    <div>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-year">2026</div>
+    <div class="reveal reveal-delay-2">
+      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.5rem;">Domain depth</div>
+      <div class="domain-grid">
+        <div class="domain-item">
           <div>
-            <div class="tl-org">Accenture Strategy</div>
-            <div class="tl-role">Management Consultant · Bangalore</div>
+            <div class="domain-name">Aerospace & Defense Systems</div>
+            <div class="domain-years">6 years · F-15, F/A-18, Satellite</div>
           </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:95%"></div></div>
         </div>
-        <div class="tl-item">
-          <div class="tl-year">2024–26</div>
+        <div class="domain-item">
           <div>
-            <div class="tl-org">IIM Calcutta</div>
-            <div class="tl-role">MBAEx · General Management</div>
+            <div class="domain-name">PLM · Siemens Capital</div>
+            <div class="domain-years">6 years · Electrical, Mechanical</div>
           </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:90%"></div></div>
         </div>
-        <div class="tl-item">
-          <div class="tl-year">2019–25</div>
+        <div class="domain-item">
           <div>
-            <div class="tl-org">Boeing India</div>
-            <div class="tl-role">Associate Full Stack Developer · PLM & Defense Programs</div>
+            <div class="domain-name">Digital Transformation</div>
+            <div class="domain-years">6 years · Cloud, Automation</div>
           </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:85%"></div></div>
         </div>
-        <div class="tl-item">
-          <div class="tl-year">2017–19</div>
+        <div class="domain-item">
           <div>
-            <div class="tl-org">IIT Delhi</div>
-            <div class="tl-role">M.Tech · Thermal Engineering</div>
+            <div class="domain-name">Strategy & Consulting</div>
+            <div class="domain-years">IIM Calcutta MBAEx · Accenture</div>
           </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:70%"></div></div>
         </div>
-        <div class="tl-item">
-          <div class="tl-year">2013–17</div>
+        <div class="domain-item">
           <div>
-            <div class="tl-org">CET Bhubaneswar</div>
-            <div class="tl-role">B.Tech · Mechanical Engineering</div>
+            <div class="domain-name">Data Analytics & AIML</div>
+            <div class="domain-years">Supply chain, procurement</div>
           </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:65%"></div></div>
+        </div>
+        <div class="domain-item">
+          <div>
+            <div class="domain-name">Solution Architecture</div>
+            <div class="domain-years">Full stack, cloud, enterprise</div>
+          </div>
+          <div class="domain-bar"><div class="domain-bar-fill" style="width:80%"></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- EXPERTISE -->
-<div class="expertise-section">
-  <div class="section-rule">
-    <span class="section-label">Expertise</span>
+<!-- IMPACT -->
+<div class="impact-section" id="impact">
+  <section>
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-label">Quantified Impact</span>
+    </div>
+    <div class="impact-grid reveal">
+      <div class="impact-card">
+        <div class="impact-num">2,200+</div>
+        <div class="impact-title">Engineering hours saved</div>
+        <div class="impact-desc">Directed satellite report migration from legacy systems to Siemens PLM using Scrum — on-time 16-week defense delivery</div>
+        <span class="impact-program">Satellite Program · ~$200K/program</span>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num green">30 min</div>
+        <div class="impact-title">From 2 days</div>
+        <div class="impact-desc">Automated contract ingestion platform reduced compliance turnaround and enabled faster global supplier onboarding</div>
+        <span class="impact-program">Business Process · Supply Chain</span>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num orange">200+</div>
+        <div class="impact-title">Hours per aircraft delivery</div>
+        <div class="impact-desc">Electrical reporting platform for F-15 & F/A-18 — decoded ambiguous US military compliance into clear specifications</div>
+        <span class="impact-program">F-15 · F/A-18 Defense Programs</span>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num">250+</div>
+        <div class="impact-title">Hours per program</div>
+        <div class="impact-desc">Cross-domain PLM integration proof of concept between electrical and mechanical design — enabled program-wide adoption</div>
+        <span class="impact-program">Siemens PLM · Innovation</span>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num green">300K</div>
+        <div class="impact-title">Unmapped components unlocked</div>
+        <div class="impact-desc">Data strategy for supplier cost analysis expanded analytical coverage for data-driven procurement decisions</div>
+        <span class="impact-program">Data Analytics · Procurement</span>
+      </div>
+      <div class="impact-card">
+        <div class="impact-num orange">100+</div>
+        <div class="impact-title">New hires onboarded annually</div>
+        <div class="impact-desc">Cloud-based enterprise training app — recognized by Director M&Q with cash reward for outstanding contribution</div>
+        <span class="impact-program">BTEC Top 50 · Boeing Innovation</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <span class="section-label">Experience</span>
   </div>
-  <h2>Where I add <em>value.</em></h2>
-  <div class="expertise-grid">
-    <div class="expertise-card">
-      <div class="exp-icon">01</div>
-      <div class="exp-title">Strategy & Consulting</div>
-      <div class="exp-desc">Business transformation, digital strategy, and operational problem-solving at the intersection of technology and management.</div>
+  <div class="exp-grid">
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">May 2026 →</div>
+        <div class="exp-org">Accenture</div>
+        <div class="exp-location">Bangalore, India</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Management Consultant, Strategy & Consulting</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Strategy</span>
+          <span class="exp-tag">Digital Transformation</span>
+          <span class="exp-tag">Consulting</span>
+        </div>
+        <ul class="exp-highlights">
+          <li>Joining Accenture Strategy practice — bringing aerospace engineering depth to enterprise strategy engagements</li>
+          <li>Focus areas: digital strategy, operational transformation, technology-enabled business models</li>
+        </ul>
+      </div>
     </div>
-    <div class="expertise-card">
-      <div class="exp-icon">02</div>
-      <div class="exp-title">Digital Transformation</div>
-      <div class="exp-desc">Led PLM and cloud migration programs at Boeing. Deep experience in translating engineering complexity into scalable digital systems.</div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Sep 2024 – Mar 2025</div>
+        <div class="exp-org">Boeing India</div>
+        <div class="exp-location">Bangalore · Global Service IT</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Associate Full Stack Developer</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Supply Chain</span>
+          <span class="exp-tag">Data Analytics</span>
+          <span class="exp-tag">Process Automation</span>
+        </div>
+        <ul class="exp-highlights">
+          <li>Automated contract ingestion reducing compliance turnaround from 1–2 days to 30 minutes</li>
+          <li>Architected workflow prioritising critical aircraft components, enabling global real-time decision-making</li>
+          <li>Data strategy unlocking 200K–300K unmapped aircraft components for procurement analytics</li>
+        </ul>
+      </div>
     </div>
-    <div class="expertise-card">
-      <div class="exp-icon">03</div>
-      <div class="exp-title">Full Stack Development</div>
-      <div class="exp-desc">Production-grade software across defense, satellite, and enterprise systems. SAFe 5.1 certified. Python, Java, cloud platforms.</div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Oct 2022 – Aug 2024</div>
+        <div class="exp-org">Boeing India</div>
+        <div class="exp-location">Bangalore · IT Product Systems</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Programmer Analyst – Level 2</div>
+        <div class="exp-tags">
+          <span class="exp-tag">F-15 · F/A-18</span>
+          <span class="exp-tag">Siemens Capital PLM</span>
+          <span class="exp-tag">Compliance</span>
+          <span class="exp-tag">BTEC Top 50</span>
+        </div>
+        <ul class="exp-highlights">
+          <li>Partnered Siemens Capital PLM lead — electrical reporting platform saving 200+ engineering hours per aircraft</li>
+          <li>Led Aircraft Visualization tool API design, enabling accurate harness visualization during repair</li>
+          <li>Top 50 Innovation at Boeing Technical Excellence Conference (BTEC) 2024</li>
+          <li>Cross-domain PLM integration PoC saving 250+ engineering hours per program</li>
+          <li>Cloud-based training app for 100+ new hires — cash award from Director M&Q</li>
+        </ul>
+      </div>
     </div>
-    <div class="expertise-card">
-      <div class="exp-icon">04</div>
-      <div class="exp-title">Data & Analytics</div>
-      <div class="exp-desc">From raw sensor data on aerospace programs to financial modelling — I turn data into decisions, not just dashboards.</div>
-    </div>
-    <div class="expertise-card">
-      <div class="exp-icon">05</div>
-      <div class="exp-title">Process Optimization</div>
-      <div class="exp-desc">Agile delivery, cross-functional program management, and continuous improvement across large engineering organizations.</div>
-    </div>
-    <div class="expertise-card">
-      <div class="exp-icon">06</div>
-      <div class="exp-title">Solution Architecture</div>
-      <div class="exp-desc">Designing systems that work at scale — from defense supply chain software to personal finance tools that run in a browser.</div>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Aug 2019 – Sep 2022</div>
+        <div class="exp-org">Boeing India</div>
+        <div class="exp-location">Bangalore · IT Product Systems</div>
+      </div>
+      <div class="exp-body">
+        <div class="exp-role">Programmer Analyst – Level 1</div>
+        <div class="exp-tags">
+          <span class="exp-tag">Satellite Systems</span>
+          <span class="exp-tag">Legacy Migration</span>
+          <span class="exp-tag">Scrum · SAFe</span>
+          <span class="exp-tag">DRC Automation</span>
+        </div>
+        <ul class="exp-highlights">
+          <li>Directed satellite report migration to Siemens PLM — 16-week on-time delivery, 2,200+ hrs saved (~$200K)</li>
+          <li>Led cross-functional redesign of 5 supplier reports preempting 3x cost increase — cash award from Sr. Director</li>
+          <li>Automated component naming in Siemens PLM saving 40–80 engineering hours per configuration</li>
+          <li>Introduced automated design-rule checks enabling scalable US–India team collaboration</li>
+        </ul>
+      </div>
     </div>
   </div>
+</section>
+
+<!-- VISION -->
+<div class="vision-section" id="vision">
+  <section>
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-label">Long-term Vision</span>
+    </div>
+    <div class="vision-grid">
+      <div class="vision-text reveal">
+        <h2>Building toward<br><em>space & deep tech.</em></h2>
+        <div class="vision-body" style="margin-top:1.5rem;">
+          <p>My career is a deliberate sequence. Six years of engineering depth in aerospace and defense. An MBA to understand business at scale. Consulting to see how strategy is actually executed across industries. And then — founding something.</p>
+          <p style="margin-top:1rem;">The domain I keep coming back to: <strong>the intersection of advanced manufacturing, space technology, and digital infrastructure</strong>. India's space sector is opening up. Defense indigenisation is accelerating. The PLM and compliance infrastructure that large aerospace programs depend on is ripe for rethinking. I've lived inside these systems — I know where the gaps are.</p>
+        </div>
+        <div class="vision-pillars" style="margin-top:2rem;">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-title">Space Technology</div>
+              <div class="pillar-desc">India's NewSpace ecosystem · Satellite systems · Launch infrastructure · In-space manufacturing</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <div>
+              <div class="pillar-title">Defense Indigenisation</div>
+              <div class="pillar-desc">Atmanirbhar Bharat · PLM for Indian defense OEMs · Compliance automation · Supply chain digitisation</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <div>
+              <div class="pillar-title">Aviation MRO & Analytics</div>
+              <div class="pillar-desc">Aircraft lifecycle data · Predictive maintenance · Cost optimisation · Digital twin infrastructure</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">04</div>
+            <div>
+              <div class="pillar-title">Enterprise AI for Engineering</div>
+              <div class="pillar-desc">AIML for complex engineering workflows · Compliance automation · Design intelligence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vision-right reveal reveal-delay-2">
+        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.5rem;">Interest areas</div>
+        <div class="interest-grid">
+          <div class="interest-card">
+            <div class="interest-icon">✈</div>
+            <div class="interest-title">Aviation Systems</div>
+            <div class="interest-desc">Aircraft compliance, harness design, electrical systems, MRO lifecycle</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon">🛰</div>
+            <div class="interest-title">Space & Satellites</div>
+            <div class="interest-desc">Satellite reporting, India NewSpace, orbital infrastructure</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon">🛡</div>
+            <div class="interest-title">Defense Tech</div>
+            <div class="interest-desc">F-15, F/A-18 programs, US-India defense collaboration, indigenisation</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon">⚙</div>
+            <div class="interest-title">PLM & Manufacturing</div>
+            <div class="interest-desc">Siemens Capital, cross-domain integration, design automation</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon">📊</div>
+            <div class="interest-title">Supply Chain AI</div>
+            <div class="interest-desc">Procurement analytics, supplier cost modelling, real-time decisions</div>
+          </div>
+          <div class="interest-card">
+            <div class="interest-icon">🚀</div>
+            <div class="interest-title">Entrepreneurship</div>
+            <div class="interest-desc">Deep tech startups, strategic ventures, product-led growth</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- TOOLS -->
 <section id="tools">
-  <div class="section-rule">
+  <div class="section-header">
+    <span class="section-num">05</span>
     <span class="section-label">Tools I've built</span>
   </div>
-  <h2>Personal <em>software.</em></h2>
-  <p style="font-size:15px;font-weight:300;color:var(--ink3);margin-bottom:2.5rem;max-width:500px;line-height:1.8;">
-    I build tools that solve real problems in my own life — financial discipline, smarter decisions, less friction.
-  </p>
-  <div class="tools-grid">
+  <p class="reveal" style="font-size:15px;color:var(--ink3);margin-bottom:2.5rem;font-family:var(--mono);max-width:480px;">Personal software — built to solve real problems, not to demonstrate skill.</p>
+  <div class="tools-grid reveal">
     <a href="./purchase-filter/index.html" class="tool-card">
       <div class="tool-tag">Finance · Discipline</div>
       <div class="tool-title">Purchase Filter</div>
-      <div class="tool-desc">A 5-question decision engine that gives a clear Yes, No, or Wait verdict on any purchase. Tracks cumulative savings over time. Built to prevent impulse buying.</div>
-      <div class="tool-link">Open tool</div>
+      <div class="tool-desc">A 5-question decision engine that gives a clear Yes, No, or Wait verdict on any purchase. Tracks cumulative savings over time. Built to prevent impulse buying and protect financial goals.</div>
     </a>
     <a href="./card-picker/index.html" class="tool-card">
       <div class="tool-tag">Finance · Optimization</div>
       <div class="tool-title">Card Picker</div>
-      <div class="tool-desc">Instant credit card recommendation by merchant or category. AI-powered quarterly refresh keeps card benefits current as banks quietly downgrade rewards.</div>
-      <div class="tool-link">Open tool</div>
+      <div class="tool-desc">Instant credit card recommendation by merchant or category across 12+ cards. AI-powered quarterly refresh keeps benefits current as banks quietly downgrade rewards.</div>
     </a>
     <div class="tool-card tool-wip">
-      <span class="wip-badge">Coming soon</span>
       <div class="tool-tag">Finance · Planning</div>
       <div class="tool-title">Cash Flow Planner</div>
-      <div class="tool-desc">Two-phase cash flow model tracking income, EMIs, SIPs, and milestone payments — through the education loan moratorium and beyond.</div>
+      <div class="tool-desc">Two-phase model tracking income, EMIs, SIPs, and milestone payments — through loan moratoriums and goal horizons.</div>
     </div>
     <div class="tool-card tool-wip">
-      <span class="wip-badge">Coming soon</span>
-      <div class="tool-tag">Productivity</div>
-      <div class="tool-title">More tools</div>
-      <div class="tool-desc">More personal tools being built as real problems arise. Strategy, productivity, and life decisions — reduced to clean interfaces.</div>
+      <div class="tool-tag">Aerospace · Research</div>
+      <div class="tool-title">India NewSpace Tracker</div>
+      <div class="tool-desc">Monitoring India's private space ecosystem — funding rounds, ISRO partnerships, regulatory shifts, and startup activity.</div>
     </div>
   </div>
 </section>
 
 <!-- EDUCATION -->
 <section style="padding-top:0;">
-  <div class="section-rule">
+  <div class="section-header">
+    <span class="section-num">06</span>
     <span class="section-label">Education</span>
   </div>
-  <div class="edu-grid">
+  <div class="edu-grid reveal">
     <div class="edu-card">
-      <div class="edu-degree">MBAEx · General Management</div>
-      <div class="edu-inst">IIM Calcutta</div>
       <div class="edu-year">2024 – 2026</div>
+      <div class="edu-degree">MBAEx</div>
+      <div class="edu-field">General Management</div>
+      <div class="edu-inst">Indian Institute of Management, Calcutta</div>
     </div>
     <div class="edu-card">
-      <div class="edu-degree">M.Tech · Thermal Engineering</div>
-      <div class="edu-inst">IIT Delhi</div>
       <div class="edu-year">2017 – 2019</div>
+      <div class="edu-degree">M.Tech</div>
+      <div class="edu-field">Thermal Engineering</div>
+      <div class="edu-inst">Indian Institute of Technology, Delhi</div>
     </div>
     <div class="edu-card">
-      <div class="edu-degree">B.Tech · Mechanical Engineering</div>
-      <div class="edu-inst">CET Bhubaneswar</div>
       <div class="edu-year">2013 – 2017</div>
+      <div class="edu-degree">B.Tech</div>
+      <div class="edu-field">Mechanical Engineering</div>
+      <div class="edu-inst">CET Bhubaneswar, Odisha</div>
     </div>
+  </div>
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;" class="reveal">
+    <div class="tag active">SAFe® 5.1 Certified · Feb 2022</div>
+    <div class="tag">BAPA Lead Program · Sep 2024</div>
+    <div class="tag">Learning Ambassador IMEA · Mar 2020</div>
+    <div class="tag">BTEC Top 50 Innovation · 2024</div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <div class="contact-section" id="contact">
-  <div>
-    <h2>Let's <em>connect.</em></h2>
-    <p class="contact-desc">Open to conversations about strategy, technology, space, or anything at the intersection of engineering and business.</p>
-  </div>
-  <div class="contact-links">
-    <a href="https://www.linkedin.com/in/pravanjan-padhihari" target="_blank" class="contact-link">
-      <span>LinkedIn</span>
-      <span class="contact-link-label">Connect →</span>
-    </a>
-    <a href="https://github.com/pravanjanpadhihari" target="_blank" class="contact-link">
-      <span>GitHub</span>
-      <span class="contact-link-label">View code →</span>
-    </a>
-    <a href="mailto:pravanjan@email.com" class="contact-link">
-      <span>Email</span>
-      <span class="contact-link-label">Say hello →</span>
-    </a>
-  </div>
+  <section>
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-label">Contact</span>
+    </div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2>Let's build<br><em>something real.</em></h2>
+        <p class="contact-intro" style="margin-top:1.5rem;">
+          Open to conversations about aerospace strategy, defense tech, space entrepreneurship, or consulting engagements where deep engineering context matters. If you're building something at the intersection of technology and hard industry — let's talk.
+        </p>
+        <div class="contact-avail">
+          <div class="avail-label">Status</div>
+          <div class="avail-text">Joining Accenture Strategy, Bangalore from May 2026. Open to side conversations on aerospace/space/defense ventures, advisory roles, and long-term collaboration.</div>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <div class="contact-links">
+          <a href="mailto:pravanjanpadhihari1994@gmail.com" class="contact-link">
+            <div class="contact-link-left">
+              <span class="contact-link-platform">Email</span>
+              <span class="contact-link-value">pravanjanpadhihari1994@gmail.com</span>
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="https://www.linkedin.com/in/pravanjan-padhihari/" target="_blank" class="contact-link">
+            <div class="contact-link-left">
+              <span class="contact-link-platform">LinkedIn</span>
+              <span class="contact-link-value">linkedin.com/in/pravanjan-padhihari</span>
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="https://github.com/pravanjanpadhihari" target="_blank" class="contact-link">
+            <div class="contact-link-left">
+              <span class="contact-link-platform">GitHub</span>
+              <span class="contact-link-value">github.com/pravanjanpadhihari</span>
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+          <a href="https://pravanjanpadhihari.github.io" target="_blank" class="contact-link">
+            <div class="contact-link-left">
+              <span class="contact-link-platform">Portfolio</span>
+              <span class="contact-link-value">pravanjanpadhihari.github.io</span>
+            </div>
+            <span class="contact-link-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <footer>
-  <span>© 2026 Pravanjan Padhihari</span>
-  <span>Bangalore, India · Accenture Strategy</span>
+  <span class="footer-left">© 2026 Pravanjan Padhihari · Bangalore, India</span>
+  <span class="footer-right">Accenture Strategy · IIM Calcutta · IIT Delhi · Boeing India</span>
 </footer>
 
 <script>
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, {threshold:0.1});
-document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+/* Cursor */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(74,158,255,0.6)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(74,158,255,0.4)';});
+});
+
+/* Scroll reveal */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
