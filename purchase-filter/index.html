@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Should I Buy This?</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-secondary: #f5f5f4;
+      --bg-success: #eaf3de;
+      --bg-danger: #fcebeb;
+      --bg-warning: #faeeda;
+      --bg-info: #e6f1fb;
+      --text-primary: #1a1a18;
+      --text-secondary: #5f5e5a;
+      --text-tertiary: #888780;
+      --text-success: #3b6d11;
+      --text-danger: #a32d2d;
+      --text-warning: #854f0b;
+      --text-info: #185fa5;
+      --border: rgba(0,0,0,0.12);
+      --border-md: rgba(0,0,0,0.2);
+      --border-success: rgba(59,109,17,0.3);
+      --border-danger: rgba(163,45,45,0.3);
+      --border-warning: rgba(133,79,11,0.3);
+      --border-info: rgba(24,95,165,0.3);
+      --radius-md: 8px;
+      --radius-lg: 12px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1c1c1a;
+        --bg-secondary: #2a2a27;
+        --bg-success: #173404;
+        --bg-danger: #501313;
+        --bg-warning: #412402;
+        --bg-info: #042c53;
+        --text-primary: #f0efea;
+        --text-secondary: #b4b2a9;
+        --text-tertiary: #888780;
+        --text-success: #c0dd97;
+        --text-danger: #f7c1c1;
+        --text-warning: #fac775;
+        --text-info: #b5d4f4;
+        --border: rgba(255,255,255,0.1);
+        --border-md: rgba(255,255,255,0.2);
+        --border-success: rgba(192,221,151,0.25);
+        --border-danger: rgba(247,193,193,0.25);
+        --border-warning: rgba(250,199,117,0.25);
+        --border-info: rgba(181,212,244,0.25);
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .app-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-tertiary);
+      margin-bottom: 0.5rem;
+    }
+
+    .app-title {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .app-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .step { display: none; }
+    .step.active { display: block; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      font-size: 15px;
+      border: 0.5px solid var(--border-md);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+      outline: none;
+      font-family: inherit;
+    }
+
+    input:focus {
+      border-color: var(--text-info);
+      box-shadow: 0 0 0 3px var(--border-info);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: -0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 0.5px solid var(--border-md);
+      border-radius: var(--radius-md);
+      background: var(--bg);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .btn:hover { background: var(--bg-secondary); }
+    .btn:active { transform: scale(0.98); }
+
+    .btn-primary {
+      background: var(--text-primary);
+      color: var(--bg);
+      border-color: var(--text-primary);
+    }
+
+    .btn-primary:hover { opacity: 0.85; background: var(--text-primary); }
+
+    .progress {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 1.5rem;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border-md);
+    }
+
+    .dot.done { background: var(--text-info); }
+    .dot.active { background: var(--text-primary); }
+
+    .q-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .q-sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .choice {
+      padding: 11px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .choice:hover { border-color: var(--border-md); }
+
+    .choice.selected {
+      border-color: var(--border-info);
+      background: var(--bg-info);
+      color: var(--text-info);
+    }
+
+    .verdict-card {
+      border-radius: var(--radius-lg);
+      border: 0.5px solid var(--border);
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .verdict-yes  { background: var(--bg-success); border-color: var(--border-success); }
+    .verdict-no   { background: var(--bg-danger);  border-color: var(--border-danger); }
+    .verdict-wait { background: var(--bg-warning); border-color: var(--border-warning); }
+
+    .verdict-headline {
+      font-size: 30px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .verdict-yes  .verdict-headline { color: var(--text-success); }
+    .verdict-no   .verdict-headline { color: var(--text-danger); }
+    .verdict-wait .verdict-headline { color: var(--text-warning); }
+
+    .verdict-item {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .verdict-reason {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .reset-btn {
+      background: none;
+      border: none;
+      font-size: 13px;
+      color: var(--text-info);
+      cursor: pointer;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .reset-btn:hover { text-decoration: underline; }
+
+    .history-section {
+      margin-top: 2rem;
+      border-top: 0.5px solid var(--border);
+      padding-top: 1.5rem;
+    }
+
+    .history-title {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border);
+      font-size: 13px;
+    }
+
+    .history-item:last-child { border-bottom: none; }
+
+    .history-name { color: var(--text-primary); flex: 1; }
+    .history-amt  { color: var(--text-secondary); margin: 0 12px; }
+
+    .badge {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-weight: 500;
+    }
+
+    .badge-yes  { background: var(--bg-success); color: var(--text-success); }
+    .badge-no   { background: var(--bg-danger);  color: var(--text-danger); }
+    .badge-wait { background: var(--bg-warning); color: var(--text-warning); }
+
+    .clear-btn {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      float: right;
+      font-family: inherit;
+    }
+
+    .clear-btn:hover { color: var(--text-danger); }
+
+    .empty-history {
+      font-size: 13px;
+      color: var(--text-tertiary);
+      font-style: italic;
+    }
+
+    /* ── Savings Dashboard ── */
+    .savings-dashboard {
+      background: var(--bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+    .savings-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .savings-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-tertiary);
+    }
+    .savings-since {
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    .savings-hero {
+      margin-bottom: 1rem;
+    }
+    .savings-hero-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+    }
+    .savings-hero-amount {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--text-success);
+      line-height: 1.1;
+    }
+    .savings-hero-sub {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+    .savings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 1rem;
+    }
+    .savings-stat {
+      background: var(--bg-secondary);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+    }
+    .savings-stat-label {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 3px;
+    }
+    .savings-stat-value {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+    .savings-stat-value.green { color: var(--text-success); }
+    .savings-stat-value.amber { color: var(--text-warning); }
+
+    .savings-bar-wrap {
+      margin-bottom: 0.25rem;
+    }
+    .savings-bar-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+    .savings-bar-track {
+      height: 5px;
+      background: var(--bg-secondary);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .savings-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--text-success);
+      transition: width 0.4s ease;
+    }
+    .savings-empty {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      font-style: italic;
+      text-align: center;
+      padding: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+<div style="max-width:480px;margin:0 auto;padding:1rem 1rem 0;"><a href="../index.html" style="font-size:12px;color:#888;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;">← Portfolio</a></div>
+<div class="card">
+  <p class="app-label">Financial discipline tool</p>
+  <h1 class="app-title">Should I buy this?</h1>
+  <p class="app-sub">Enter what you're considering. Get a clear Yes, No, or Wait — no overthinking.</p>
+
+  <div class="savings-dashboard" id="savings-dashboard"></div>
+
+  <div class="step active" id="step-0">
+    <label for="item-name">What is it?</label>
+    <input type="text" id="item-name" placeholder="e.g. wireless earbuds, new shoes…" />
+
+    <label for="item-amount">How much does it cost? (₹)</label>
+    <input type="number" id="item-amount" placeholder="Amount in ₹" min="0" />
+    <p class="hint">Under ₹50 → auto-approved. No questions asked.</p>
+
+    <button class="btn btn-primary" onclick="startFlow()">Check this purchase →</button>
+  </div>
+
+  <div class="step" id="step-q">
+    <div class="progress" id="progress-dots"></div>
+    <p class="q-text" id="q-text"></p>
+    <p class="q-sub" id="q-sub"></p>
+    <div class="choices" id="q-choices"></div>
+  </div>
+
+  <div class="step" id="step-verdict">
+    <p class="verdict-item" id="verdict-item-label"></p>
+    <div class="verdict-card" id="verdict-card">
+      <div class="verdict-headline" id="verdict-headline"></div>
+      <div class="verdict-reason" id="verdict-reason"></div>
+    </div>
+    <button class="reset-btn" onclick="reset()">← Check another purchase</button>
+  </div>
+
+  <div class="history-section">
+    <p class="history-title">
+      Recent decisions
+      <button class="clear-btn" onclick="clearHistory()">Clear all</button>
+    </p>
+    <div id="history-list"><p class="empty-history">Nothing yet.</p></div>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      id: "budgeted",
+      text: "Is this in your budget for this month?",
+      sub: "Your saveable budget is ~₹48K/month after rent, EMIs, and essentials.",
+      options: [
+        { label: "Yes, I planned for this", value: "yes" },
+        { label: "No, it's unplanned", value: "no" },
+        { label: "Sort of — I can adjust", value: "maybe" }
+      ]
+    },
+    {
+      id: "want_duration",
+      text: "How long have you wanted this?",
+      sub: "Impulse buys peak within 24 hours of seeing something.",
+      options: [
+        { label: "Just saw it today", value: "today" },
+        { label: "A few days", value: "days" },
+        { label: "More than a week", value: "week" }
+      ]
+    },
+    {
+      id: "necessity",
+      text: "What best describes this purchase?",
+      sub: "",
+      options: [
+        { label: "Genuine need — I use this regularly", value: "need" },
+        { label: "Nice to have, but I'll survive without it", value: "want" },
+        { label: "Purely a treat / impulse", value: "impulse" }
+      ]
+    },
+    {
+      id: "goal_impact",
+      text: "Does buying this delay any of your financial goals?",
+      sub: "Think: Brigade flat milestones, SIP targets, emergency fund, loan prepayment.",
+      options: [
+        { label: "No impact at all", value: "none" },
+        { label: "Minor — I'll adjust elsewhere", value: "minor" },
+        { label: "Yes, it'll hurt a target", value: "yes" }
+      ]
+    },
+    {
+      id: "alternative",
+      text: "Can you get the same result for less — or for free?",
+      sub: "",
+      options: [
+        { label: "No, this is the best option", value: "no" },
+        { label: "Maybe, but I haven't checked", value: "maybe" },
+        { label: "Yes, there's a cheaper way", value: "yes" }
+      ]
+    }
+  ];
+
+  let answers = {};
+  let currentQ = 0;
+  let itemName = "";
+  let itemAmount = 0;
+  let history = JSON.parse(localStorage.getItem("purchase_history") || "[]");
+
+  function renderSavings() {
+    const el = document.getElementById("savings-dashboard");
+    const blocked = history.filter(h => h.verdict === "no" || h.verdict === "wait");
+    if (!blocked.length) {
+      el.innerHTML = `<div class="savings-empty">No savings tracked yet — your first "No" or "Wait" will appear here.</div>`;
+      return;
+    }
+    const totalSaved  = blocked.reduce((s, h) => s + h.amount, 0);
+    const noSaved     = history.filter(h => h.verdict === "no").reduce((s, h) => s + h.amount, 0);
+    const waitSaved   = history.filter(h => h.verdict === "wait").reduce((s, h) => s + h.amount, 0);
+    const noCount     = history.filter(h => h.verdict === "no").length;
+    const waitCount   = history.filter(h => h.verdict === "wait").length;
+
+    const now = new Date();
+    const curMonth = now.toLocaleDateString("en-IN", { month: "short" });
+    const curYear  = now.getFullYear().toString();
+    const thisMonthSaved = blocked.filter(h => h.date && h.date.includes(curMonth) && h.date.includes(curYear))
+                                  .reduce((s, h) => s + h.amount, 0);
+    const monthLabel = now.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+
+    const firstEntry = history[history.length - 1];
+    const sinceLine  = firstEntry ? "since " + firstEntry.date : "";
+
+    const monthlyBudget = 48000;
+    const pct = Math.min(100, Math.round((thisMonthSaved / monthlyBudget) * 100));
+
+    el.innerHTML = `
+      <div class="savings-header">
+        <span class="savings-title">Savings tracker</span>
+        <span class="savings-since">${sinceLine}</span>
+      </div>
+      <div class="savings-hero">
+        <div class="savings-hero-label">Total money not spent</div>
+        <div class="savings-hero-amount">₹${totalSaved.toLocaleString("en-IN")}</div>
+        <div class="savings-hero-sub">${noCount + waitCount} purchases blocked &middot; ${noCount} No &middot; ${waitCount} Wait</div>
+      </div>
+      <div class="savings-grid">
+        <div class="savings-stat">
+          <div class="savings-stat-label">Hard No</div>
+          <div class="savings-stat-value green">₹${noSaved.toLocaleString("en-IN")}</div>
+        </div>
+        <div class="savings-stat">
+          <div class="savings-stat-label">On hold</div>
+          <div class="savings-stat-value amber">₹${waitSaved.toLocaleString("en-IN")}</div>
+        </div>
+        <div class="savings-stat">
+          <div class="savings-stat-label">${monthLabel}</div>
+          <div class="savings-stat-value">₹${thisMonthSaved.toLocaleString("en-IN")}</div>
+        </div>
+      </div>
+      <div class="savings-bar-wrap">
+        <div class="savings-bar-labels">
+          <span>This month vs ₹48K saveable budget</span>
+          <span>${pct}%</span>
+        </div>
+        <div class="savings-bar-track">
+          <div class="savings-bar-fill" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+  }
+
+  renderSavings();
+  renderHistory();
+
+  function startFlow() {
+    itemName = document.getElementById("item-name").value.trim();
+    itemAmount = parseFloat(document.getElementById("item-amount").value) || 0;
+    if (!itemName || !itemAmount) { alert("Please enter both item name and amount."); return; }
+
+    if (itemAmount < 50) {
+      saveAndShow("yes", "Auto-approved — anything under ₹50 doesn't need a second thought. Go for it.");
+      return;
+    }
+
+    answers = {};
+    currentQ = 0;
+    document.getElementById("step-0").classList.remove("active");
+    document.getElementById("step-q").classList.add("active");
+    showQuestion(0);
+  }
+
+  function showQuestion(idx) {
+    const q = questions[idx];
+    document.getElementById("q-text").textContent = q.text;
+    document.getElementById("q-sub").textContent = q.sub;
+
+    const choicesEl = document.getElementById("q-choices");
+    choicesEl.innerHTML = "";
+    q.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.className = "choice";
+      btn.textContent = opt.label;
+      btn.onclick = () => selectAnswer(q.id, opt.value, btn);
+      choicesEl.appendChild(btn);
+    });
+
+    const dots = document.getElementById("progress-dots");
+    dots.innerHTML = "";
+    questions.forEach((_, i) => {
+      const d = document.createElement("div");
+      d.className = "dot" + (i < idx ? " done" : i === idx ? " active" : "");
+      dots.appendChild(d);
+    });
+  }
+
+  function selectAnswer(qId, value, btnEl) {
+    document.querySelectorAll(".choice").forEach(b => b.classList.remove("selected"));
+    btnEl.classList.add("selected");
+    answers[qId] = value;
+    setTimeout(() => {
+      currentQ++;
+      if (currentQ < questions.length) showQuestion(currentQ);
+      else computeVerdict();
+    }, 280);
+  }
+
+  function computeVerdict() {
+    const a = answers;
+    let score = 0;
+    let reasons = [];
+
+    if (a.budgeted === "yes") score += 2;
+    else if (a.budgeted === "maybe") score += 1;
+    else { score -= 2; reasons.push("it's not in your budget this month"); }
+
+    if (a.want_duration === "week") score += 2;
+    else if (a.want_duration === "days") score += 1;
+    else { score -= 1; reasons.push("you just discovered this today — classic impulse trigger"); }
+
+    if (a.necessity === "need") score += 2;
+    else if (a.necessity === "want") score += 0;
+    else { score -= 2; reasons.push("this is a pure impulse buy"); }
+
+    if (a.goal_impact === "none") score += 2;
+    else if (a.goal_impact === "minor") score += 0;
+    else { score -= 3; reasons.push("it'll hurt one of your financial goals"); }
+
+    if (a.alternative === "no") score += 1;
+    else if (a.alternative === "maybe") { score -= 1; reasons.push("you haven't checked if there's a cheaper option"); }
+    else { score -= 2; reasons.push("there's a cheaper alternative you haven't explored"); }
+
+    if (itemAmount > 5000) { score -= 1; reasons.push("this is above ₹5,000 — high scrutiny zone"); }
+    else if (itemAmount < 500) score += 1;
+
+    let verdict, type, reason;
+    if (score >= 5) {
+      verdict = "Yes";
+      type = "yes";
+      reason = `Looks like a considered, budget-friendly decision. Go ahead with the ${itemName}.`;
+    } else if (score >= 2) {
+      verdict = "Wait";
+      type = "wait";
+      const r = reasons.length > 0 ? reasons[0] : "a couple of flags came up";
+      reason = `Pause for 48 hours. The main concern: ${r}. If you still want it after that, it's probably fine.`;
+    } else {
+      verdict = "No";
+      type = "no";
+      const r = reasons.length > 0 ? reasons.slice(0, 2).join(" and ") : "multiple flags came up";
+      reason = `Skip it — ${r}. Your future self (and Brigade flat) will thank you.`;
+    }
+
+    saveAndShow(verdict, reason, type);
+  }
+
+  function saveAndShow(verdict, reason, type) {
+    const entry = {
+      name: itemName,
+      amount: itemAmount,
+      verdict: verdict.toLowerCase(),
+      reason: reason,
+      date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+    };
+    history.unshift(entry);
+    if (history.length > 20) history = history.slice(0, 20);
+    localStorage.setItem("purchase_history", JSON.stringify(history));
+
+    document.getElementById("step-q").classList.remove("active");
+    document.getElementById("step-0").classList.remove("active");
+    document.getElementById("step-verdict").classList.add("active");
+
+    document.getElementById("verdict-item-label").textContent =
+      itemName + " · ₹" + itemAmount.toLocaleString("en-IN");
+    document.getElementById("verdict-headline").textContent = verdict;
+    document.getElementById("verdict-reason").textContent = reason;
+
+    const card = document.getElementById("verdict-card");
+    card.className = "verdict-card verdict-" + (type || verdict.toLowerCase());
+
+    renderSavings();
+    renderHistory();
+  }
+
+  function reset() {
+    document.getElementById("step-verdict").classList.remove("active");
+    document.getElementById("step-q").classList.remove("active");
+    document.getElementById("step-0").classList.add("active");
+    document.getElementById("item-name").value = "";
+    document.getElementById("item-amount").value = "";
+    answers = {};
+    currentQ = 0;
+  }
+
+  function renderHistory() {
+    const el = document.getElementById("history-list");
+    if (!history.length) {
+      el.innerHTML = '<p class="empty-history">Nothing yet.</p>';
+      return;
+    }
+    el.innerHTML = history.slice(0, 8).map(h => `
+      <div class="history-item">
+        <span class="history-name">${h.name}</span>
+        <span class="history-amt">₹${h.amount.toLocaleString("en-IN")}</span>
+        <span class="badge badge-${h.verdict}">${h.verdict.charAt(0).toUpperCase() + h.verdict.slice(1)}</span>
+      </div>
+    `).join("");
+  }
+
+  function clearHistory() {
+    history = [];
+    localStorage.removeItem("purchase_history");
+    renderSavings();
+    renderHistory();
+  }
+</script>
+</body>
+</html>
